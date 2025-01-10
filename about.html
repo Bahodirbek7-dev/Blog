@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>Comment</title>
+
+        <!-- CSS FILES -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;700;900&display=swap" rel="stylesheet">
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/bootstrap-icons.css" rel="stylesheet">
+        <link rel="stylesheet" href="css/slick.css"/>
+        <link href="css/tooplate-little-fashion.css" rel="stylesheet">
+
+        
+        <link rel="icon" sizes="32x32" href="icon.png" type="image/png">
+
+    </head>
+    <body>
+
+        <section class="preloader">
+            <div class="spinner">
+                <span class="sk-inner-circle"></span>
+            </div>
+        </section>
+    
+        <main>
+
+            <nav class="navbar navbar-expand-lg">
+                <div class="container">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <a class="navbar-brand" href="index.html">
+                        <strong><span>Bahodirbekning</span> Blogi</strong>
+                    </a>
+
+                    <div class="d-lg-none">
+                        <a href="sign-in.html" class="bi-person custom-icon me-3"></a>
+
+                        <a href="product-detail.html" class="bi-bag custom-icon"></a>
+                    </div>
+
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav mx-auto">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="index.html">Home</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="about.html">Comment</a>
+                            </li>
+
+                          
+                        </ul>
+
+
+                    </div>
+                </div>
+            </nav>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        .content {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .like-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .comment-section {
+            margin-top: 20px;
+        }
+        .comments-list {
+            margin-top: 10px;
+            list-style: none;
+            padding: 0;
+        }
+        .comments-list li {
+            background: #f9f9f9;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        button, .blog-button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            background-color: #0077cc;
+            color: white;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            height: 43.3px;
+            transform: scale(1.05);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .blog-button:hover {
+            height: 22px;
+            transform: scale(1.05);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        button:active, .blog-button:active {
+            background-color: #6adb76;
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+
+<body>
+
+
+<section id="news" class="content">
+    <h2>Comments</h2>
+    <div class="news">
+        <div class="news-item" id="news-item-1">
+            <h3>Blog haqida o'z fikringizni qoldiring✍</h3>
+            <p>Blogim kelejagi uchun</p>
+            <div class="like-section">
+                <button class="like-button">💖 Like</button>
+                <button class="dislike-button">💔 Dislike</button>
+                <span class="like-count">Likes: 0</span>
+                <span class="dislike-count">Dislikes: 0</span>
+            </div>
+            <div class="comment-section">
+                <textarea placeholder="Izoh qoldiring..."></textarea>
+                <button class="submit-comment">Fikirni yuborish</button>
+                <ul class="comments-list"></ul>
+                <a href="index.html" class="blog-button">Blog</a>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    document.querySelectorAll('.news-item').forEach(newsItem => {
+        const id = newsItem.id;
+        const likeButton = newsItem.querySelector('.like-button');
+        const dislikeButton = newsItem.querySelector('.dislike-button');
+        const likeCountSpan = newsItem.querySelector('.like-count');
+        const dislikeCountSpan = newsItem.querySelector('.dislike-count');
+        const commentInput = newsItem.querySelector('textarea');
+        const submitCommentButton = newsItem.querySelector('.submit-comment');
+        const commentsList = newsItem.querySelector('.comments-list');
+
+        function saveCounts(id, likes, dislikes) {
+            localStorage.setItem(`${id}-likes`, likes);
+            localStorage.setItem(`${id}-dislikes`, dislikes);
+        }
+
+        function loadCounts(id) {
+            const likes = parseInt(localStorage.getItem(`${id}-likes`)) || 0;
+            const dislikes = parseInt(localStorage.getItem(`${id}-dislikes`)) || 0;
+            return { likes, dislikes };
+        }
+
+        function loadComments(id) {
+            return JSON.parse(localStorage.getItem(`${id}-comments`)) || [];
+        }
+
+        function saveComments(id, comments) {
+            localStorage.setItem(`${id}-comments`, JSON.stringify(comments));
+        }
+
+        function renderComments(comments) {
+            commentsList.innerHTML = '';
+            comments.forEach(comment => {
+                const li = document.createElement('li');
+                li.textContent = comment;
+                commentsList.appendChild(li);
+            });
+        }
+
+        let { likes, dislikes } = loadCounts(id);
+        let comments = loadComments(id);
+
+        // Display initial counts
+        likeCountSpan.textContent = `Likes: ${likes}`;
+        dislikeCountSpan.textContent = `Dislikes: ${dislikes}`;
+        renderComments(comments);
+
+        // Event Listeners
+        likeButton.addEventListener('click', () => {
+            likes++;
+            likeCountSpan.textContent = `Likes: ${likes}`;
+            saveCounts(id, likes, dislikes);
+        });
+
+        dislikeButton.addEventListener('click', () => {
+            dislikes++;
+            dislikeCountSpan.textContent = `Dislikes: ${dislikes}`;
+            saveCounts(id, likes, dislikes);
+        });
+
+        submitCommentButton.addEventListener('click', () => {
+            const comment = commentInput.value.trim();
+            if (comment) {
+                comments = [comment];
+                saveComments(id, comments);
+                renderComments(comments);
+                commentInput.value = '';
+            }
+        });
+    });
+</script>
+
+        <footer class="site-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-10 me-auto mb-4">
+                        <h4 class="text-white mb-3"><a href="index.html">Blog</a></h4>
+                        <p class="copyright-text text-muted mt-lg-5 mb-4 mb-lg-0">
+                            Copyright © 2025 <strong>Bahodirbekning Blogi</strong>
+                        </p>
+                        <p class="copyright-text">
+                            Designed by <a href="https://bahodirbek20090405@gmail.com" target="_blank">Bahodirbek</a>
+                        </p>
+                    </div>
+
+     
+
+                    <div class="col-lg-3 col-4">
+                        <h5 class="text-white mb-3">My Account</h5>
+                        <ul class="social-icon">
+                            <li><a href="https://www.instagram.com/bahodirbek.qosimov" class="social-icon-link bi-instagram"></a></li>
+                            <li><a href="https://t.me/bahodirbekning_kanali" class="social-icon-link bi-telegram"></a></li>
+                            <li><a href="https://www.facebook.com/profile.php?id=61571521952523" class="social-icon-link bi-facebook"></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- JAVASCRIPT FILES -->
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <script src="js/Headroom.js"></script>
+        <script src="js/jQuery.headroom.js"></script>
+        <script src="js/slick.min.js"></script>
+        <script src="js/custom.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                loadCounts();
+                loadComments();
+                
+                document.querySelector('.like-btn').addEventListener('click', () => updateReaction('like'));
+                document.querySelector('.dislike-btn').addEventListener('click', () => updateReaction('dislike'));
+                document.querySelector('#add-comment-btn').addEventListener('click', addComment);
+            });
+
+            async function loadCounts() {
+                const response = await fetch("api.php?action=getCounts");
+                const data = await response.json();
+                document.getElementById('like-count').textContent = data.likes;
+                document.getElementById('dislike-count').textContent = data.dislikes;
+            }
+
+            async function updateReaction(type) {
+                await fetch("api.php?action=updateReaction", {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ type })
+                });
+                loadCounts();
+            }
+
+            async function addComment() {
+                const comment = document.getElementById('comment-text').value;
+                if (comment.trim()) {
+                    await fetch("api.php?action=addComment", {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ comment })
+                    });
+                    document.getElementById('comment-text').value = '';
+                    loadComments();
+                }
+            }
+
+            async function loadComments() {
+                const response = await fetch("api.php?action=getComments");
+                const comments = await response.json();
+                const commentList = document.getElementById('comment-list');
+                commentList.innerHTML = comments.map(c => `<li class="list-group-item">${c}</li>`).join('');
+            }
+        </script>
+    </body>
+</html>
