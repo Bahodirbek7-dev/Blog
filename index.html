@@ -374,7 +374,9 @@ https://www.tooplate.com/view/2127-little-fashion
                         </div>
 
                         <h5><span>Urardan</span> minnadorman🤝</h5>
-
+                        <p class="copyright-text">
+                            blogimga tashriflar soni: <span id="visit-count">0</span>
+                        </p>
                     </div>
                 </div>
             </section>
@@ -418,6 +420,25 @@ https://www.tooplate.com/view/2127-little-fashion
         <script src="js/jQuery.headroom.js"></script>
         <script src="js/slick.min.js"></script>
         <script src="js/custom.js"></script>
+        <script>
+            // Local Storage orqali ko'rilganlar sonini hisoblash
+            document.addEventListener("DOMContentLoaded", () => {
+                let visitCount = localStorage.getItem("visitCount");
+        
+                if (!visitCount) {
+                    visitCount = 0;
+                }
+        
+                visitCount = parseInt(visitCount) + 1;
+                localStorage.setItem("visitCount", visitCount);
+        
+                // Kirib ko'rganlar sonini yuklash
+                const visitDisplay = document.querySelector("#visit-count");
+                if (visitDisplay) {
+                    visitDisplay.textContent = visitCount;
+                }
+            });
+        </script>
 
     </body>
 </html>
